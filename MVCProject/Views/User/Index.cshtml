@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MVCProject.Models.mvctblUserModel>
+
+@{
+    ViewBag.Title = "AddOrEdit";
+}
+
+<br />
+<p>
+    <a href="@Url.Action("AddOrEdit","User")" class="btn btn-default"><i class="fa fa-plus"></i> Create New </a>
+</p>
+<table class="table table-striped">
+    <thead class="table-bordered">
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Designation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.Skills)
+
+                
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DOB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Designation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Skills)
+        </td>
+        <td>
+           <a href="@Url.Action("AddOrEdit","User",new {id=item.UserId })"class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
+            <a onclick="Delete(@item.UserId)" class="btn btn-default"><i class="fa fa-trash"></i>Delete</a>
+ 
+        </td>
+    </tr>
+}
+
+</table>
+@section scripts{ 
+    <script>
+        $(function () {
+            var SuccessMessage = '@TempData["SuccessMessage"]'
+            if (SuccessMessage != '')
+                alertify.success(SuccessMessage);
+        });
+
+        function Delete(id)
+        {
+            alertify.confirm('Web Api CRUD Operation', 'Are You Sure to Delete this Record', function () {
+               window.location.href='@Url.Action("Delete","User")/'+id;
+            },null)
+        }
+    </script>
+}
